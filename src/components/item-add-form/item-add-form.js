@@ -6,13 +6,29 @@ const ItemAddForm = ( { onItemAdded } ) => {
     const [label, setLabel] = useState('');
 
     const onLabelChange = (e) => {
+        if (e.target.value.length < 3) {
+            disableSubmitButton();
+        } else {
+            enableSubmitButton();
+        }
         setLabel(e.target.value);
     }
 
     const onSubmit = (e) => {
+        disableSubmitButton();
         e.preventDefault();
         onItemAdded(label);
         setLabel('');
+    }
+
+    const disableSubmitButton = () => {
+        const submitButton = document.getElementById('submit-button');
+        submitButton.setAttribute('disabled', '');
+    }
+
+    const enableSubmitButton = () => {
+        const submitButton = document.getElementById('submit-button');
+        submitButton.removeAttribute('disabled');
     }
 
     return(
@@ -23,7 +39,9 @@ const ItemAddForm = ( { onItemAdded } ) => {
                            placeholder="what needs to be done" value={label}/>
                 </div>
                 <div className="col">
-                    <button type="submit" className="btn btn-outline-info">
+                    <button type="submit"
+                            className="btn btn-outline-info"
+                            id="submit-button" disabled>
                         Add task
                     </button>
                 </div>
