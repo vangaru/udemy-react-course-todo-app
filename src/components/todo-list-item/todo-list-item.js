@@ -1,28 +1,33 @@
 import React, {useState} from "react";
 import './todo-list-item.css'
 
-const TodoListItem = ( { label, important = false } ) => {
+const TodoListItem = ( { label } ) => {
 
     const [isDone, setIsDone] = useState(false);
-
-    const listItemStyle ={
-        color: important ? 'steelblue' : 'black',
-        fontWeight: important ? 'bold' : 'normal',
-    };
+    const [isImportant, setIsImportant] = useState(false);
 
     let classNames = 'todo-list-item';
     if (isDone) {
         classNames += ' done';
     }
 
+    if (isImportant) {
+        classNames += ' important';
+    }
+
     const onLabelClick = () => {
         setIsDone(!isDone);
     };
 
+    const onImportantButtonClick = () => {
+        setIsImportant(!isImportant);
+    }
+
     return (
-        <span className={classNames} onClick={ onLabelClick }>
-            <span className="todo-list-item-label" style={listItemStyle}>{ label }</span>
-            <button type="button" className="btn btn-outline-success btn-sm">
+        <span className={classNames}>
+            <span className="todo-list-item-label" onClick={ onLabelClick }>{ label }</span>
+            <button type="button" className="btn btn-outline-success btn-sm"
+                onClick = { onImportantButtonClick }>
                 <i className="fa fa-exclamation" />
             </button>
             <button type="button" className="btn btn-outline-danger btn-sm">
