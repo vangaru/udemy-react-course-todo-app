@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import './todo-list-item.css'
 
-const TodoListItem = ( { label } ) => {
+const TodoListItem = ( { label, onDeleted } ) => {
 
     const [isDone, setIsDone] = useState(false);
     const [isImportant, setIsImportant] = useState(false);
@@ -30,7 +30,8 @@ const TodoListItem = ( { label } ) => {
                 onClick = { onImportantButtonClick }>
                 <i className="fa fa-exclamation" />
             </button>
-            <button type="button" className="btn btn-outline-danger btn-sm">
+            <button type="button" className="btn btn-outline-danger btn-sm"
+                onClick={ onDeleted }>
                 <i className="fa fa-trash-o" />
             </button>
         </span>
