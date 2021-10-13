@@ -7,15 +7,13 @@ import React, {useState} from "react";
 
 const App = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [filter, setFilter] = useState('all');
 
     const [todoData, setTodoData] = useState([
         { label: 'Drink coffee', id: 1, important: false, done: false },
         { label: 'Make awesome app', id: 2, important: false, done: false },
         { label: 'Have a lunch', id: 3, important: false, done: false }
     ]);
-
-    const [doneTodosCount, setDoneTodosCount] = useState(
-        todoData.filter((el) => el.done).length);
 
     const createTodoItem = (label, important = false, done = false) => {
         return {
@@ -57,31 +55,33 @@ const App = () => {
         const newTodoData = [...todoData];
         newTodoData[index] = newItem;
         setTodoData(newTodoData);
-        newItem.done
-            ? setDoneTodosCount(doneTodosCount + 1)
-            : setDoneTodosCount(doneTodosCount - 1);
     };
 
     const search = (label) => {
         setSearchTerm(label);
     }
 
+    const filterItems = (f) => {
+        setFilter(f);
+    }
+
     return (
         <div className="container mt-5">
             <AppHeader
-                done={ doneTodosCount }
-                toDo={ todoData.length - doneTodosCount } />
+                done={ todoData.filter((el) => el.done).length }
+                toDo={ todoData.filter((el) => !el.done).length } />
             <div className="row">
                 <div className="col-sm-6">
                     <SearchPanel onSearch={ search } />
                 </div>
                 <div className="col-sm-6">
-                    <ItemStatusFilter />
+                    <ItemStatusFilter onFilter={ filterItems }/>
                 </div>
             </div>
             <TodoList
                 todos={ todoData }
                 searchTerm={ searchTerm }
+                filter={ filter }
                 onTodoListItemDeleted={ deleteTodoListItem }
                 onToggleImportant={ onToggleImportant }
                 onToggleDone = { onToggleDone }

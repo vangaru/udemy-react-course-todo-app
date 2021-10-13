@@ -2,9 +2,19 @@ import React from "react";
 import TodoListItem from "../todo-list-item";
 import './todo-list.css';
 
-const TodoList = ( {todos, searchTerm, onTodoListItemDeleted, onToggleImportant, onToggleDone } ) => {
+const TodoList = ( {todos, searchTerm, filter, onTodoListItemDeleted, onToggleImportant, onToggleDone } ) => {
+
+    const checkFilter = (item) => {
+        if (filter === 'all')
+            return true;
+        if (filter === 'active')
+            return !item.done;
+        if (filter === 'done')
+            return item.done;
+    }
 
     const todoElements = todos
+        .filter((item) => checkFilter(item))
         .filter((item) => item.label.trim()
             .toLowerCase()
             .includes(searchTerm.toLowerCase().trim()))
