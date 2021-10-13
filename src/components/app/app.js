@@ -6,6 +6,7 @@ import ItemAddForm from "../item-add-form";
 import React, {useState} from "react";
 
 const App = () => {
+    const [searchTerm, setSearchTerm] = useState('');
 
     const [todoData, setTodoData] = useState([
         { label: 'Drink coffee', id: 1, important: false, done: false },
@@ -61,6 +62,10 @@ const App = () => {
             : setDoneTodosCount(doneTodosCount - 1);
     };
 
+    const search = (label) => {
+        setSearchTerm(label);
+    }
+
     return (
         <div className="container mt-5">
             <AppHeader
@@ -68,7 +73,7 @@ const App = () => {
                 toDo={ todoData.length - doneTodosCount } />
             <div className="row">
                 <div className="col-sm-6">
-                    <SearchPanel />
+                    <SearchPanel onSearch={ search } />
                 </div>
                 <div className="col-sm-6">
                     <ItemStatusFilter />
@@ -76,6 +81,7 @@ const App = () => {
             </div>
             <TodoList
                 todos={ todoData }
+                searchTerm={ searchTerm }
                 onTodoListItemDeleted={ deleteTodoListItem }
                 onToggleImportant={ onToggleImportant }
                 onToggleDone = { onToggleDone }
